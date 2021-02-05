@@ -11,17 +11,19 @@ func IsIsogram(s string) bool {
 
 	result := true
 
-	runeCount := make(map[rune]int)
+	seenRune := make(map[rune]bool)
 
 	for _, thisRune := range strings.ToLower(s) {
 		if unicode.IsLetter(thisRune) {
-			_, ok := runeCount[thisRune]
-			if !ok {
-				runeCount[thisRune] = 1
+			seen := seenRune[thisRune]
+
+			if !seen {
+				seenRune[thisRune] = true
 			} else {
 				result = false
 				break
 			}
+
 		}
 	}
 
