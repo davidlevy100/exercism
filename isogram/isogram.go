@@ -15,14 +15,13 @@ func IsIsogram(s string) bool {
 
 	for _, thisRune := range strings.ToLower(s) {
 		if unicode.IsLetter(thisRune) {
-			seen := seenRune[thisRune]
 
-			if !seen {
-				seenRune[thisRune] = true
-			} else {
+			if seenRune[thisRune] {
 				result = false
 				break
 			}
+
+			seenRune[thisRune] = true
 
 		}
 	}
