@@ -1,27 +1,33 @@
 public static class LogAnalysis
 {
-    /// <summary>Returns substring after last occurrence of delimiter.</summary>
-    public static string SubstringAfter(this string str, string delimiter)
+    // Return substring after last occurrence of a delimiter string
+    public static string SubstringAfter(this string s, string delimiter)
     {
-        int index = str.LastIndexOf(delimiter);
-        return index == -1 ? string.Empty : str.Substring(index + delimiter.Length);
+        int idx = s.LastIndexOf(delimiter);
+        if (idx < 0) return "";
+
+        return s.Substring(idx + delimiter.Length);
     }
 
-    /// <summary>Returns substring between last occurrences of start and end.</summary>
-    public static string SubstringBetween(this string str, string start, string end)
+    // Return substring between two delimiters
+    public static string SubstringBetween(this string s, string start, string end)
     {
-        int startIndex = str.LastIndexOf(start);
-        int endIndex = str.LastIndexOf(end);
+        int i1 = s.IndexOf(start);
+        if (i1 < 0) return "";
 
-        if (startIndex == -1 || endIndex == -1 || startIndex >= endIndex)
-            return string.Empty;
+        i1 += start.Length;
 
-        return str.Substring(startIndex + start.Length, endIndex - startIndex - start.Length);
+        int i2 = s.IndexOf(end, i1);
+        if (i2 < 0) return "";
+
+        return s.Substring(i1, i2 - i1);
     }
 
-    /// <summary>Extracts message after ": ".</summary>
-    public static string Message(this string str) => str.SubstringAfter(": ");
+    // Extract message portion
+    public static string Message(this string s)
+        => s.SubstringAfter(":").Trim();
 
-    /// <summary>Extracts text between "[" and "]".</summary>
-    public static string LogLevel(this string str) => str.SubstringBetween("[", "]");
+    // Extract log level portion
+    public static string LogLevel(this string s)
+        => s.SubstringBetween("[", "]").Trim();
 }
