@@ -1,17 +1,21 @@
-/// <summary>
-/// Parses and reformats simple log lines of the form "[LEVEL]: message".
-/// </summary>
 static class LogLine
 {
-    /// <summary>Extracts the message text from a log line.</summary>
-    public static string Message(string logLine) =>
-        logLine.Split(':')[1].Trim();
+    // Extract the message after the last colon
+    public static string Message(string logLine)
+    {
+        int idx = logLine.LastIndexOf(':');
+        return logLine.Substring(idx + 1).Trim();
+    }
 
-    /// <summary>Extracts the log level (lowercase) from a log line.</summary>
-    public static string LogLevel(string logLine) =>
-        logLine.Split(':')[0].Trim('[', ']', ' ').ToLowerInvariant();
+    // Extract the log level between brackets, lowercased
+    public static string LogLevel(string logLine)
+    {
+        int idx = logLine.LastIndexOf(':');
+        string level = logLine.Substring(0, idx);
+        return level.Trim('[', ']', ' ').ToLowerInvariant();
+    }
 
-    /// <summary>Returns "message (level)" format.</summary>
-    public static string Reformat(string logLine) =>
-        $"{Message(logLine)} ({LogLevel(logLine)})";
+    // Reformat using the two helper functions
+    public static string Reformat(string logLine)
+        => $"{Message(logLine)} ({LogLevel(logLine)})";
 }
