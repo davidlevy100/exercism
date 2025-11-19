@@ -1,35 +1,30 @@
 static class SavingsAccount
 {
-    // Returns the applicable interest rate (%) based on balance tiers
-    public static float InterestRate(decimal balance)
-    {
-        if (balance < 0m)
-            return 3.213f;
-        else if (balance < 1000m)
-            return 0.5f;
-        else if (balance < 5000m)
-            return 1.621f;
-        else
-            return 2.475f;
-    }
+    // Determine interest rate based on balance tiers
+    public static float InterestRate(decimal balance) =>
+        balance < 0m    ? 3.213f :
+        balance < 1000m ? 0.5f   :
+        balance < 5000m ? 1.621f :
+                          2.475f;
 
-    // Calculates annual interest amount based on current balance
+    // Yearly interest amount
     public static decimal Interest(decimal balance) =>
         balance * (decimal)InterestRate(balance) / 100m;
 
-    // Returns the updated balance after applying annual interest
+    // Apply one year's interest
     public static decimal AnnualBalanceUpdate(decimal balance) =>
         balance + Interest(balance);
 
-    // Calculates years required to reach or exceed the target balance
+    // Number of years to reach the target
     public static int YearsBeforeDesiredBalance(decimal balance, decimal targetBalance)
     {
         int years = 0;
-        while (balance < targetBalance)
-        {
+
+        while (balance < targetBalance) {
             balance = AnnualBalanceUpdate(balance);
             years++;
         }
+
         return years;
     }
 }
