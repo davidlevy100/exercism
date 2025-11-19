@@ -1,23 +1,26 @@
 class RemoteControlCar
 {
-    private int distanceDriven = 0;
-    private int batteryPercentage = 100;
-
-    /// <summary>Creates a new remote control car.</summary>
+    private int _distanceDriven = 0;   // meters driven
+    private int _battery = 100;        // percentage remaining
+    
     public static RemoteControlCar Buy() => new RemoteControlCar();
 
-    /// <summary>Returns the total distance driven.</summary>
-    public string DistanceDisplay() => $"Driven {distanceDriven} meters";
+    // Display driven distance
+    public string DistanceDisplay() => $"Driven {_distanceDriven} meters";
 
-    /// <summary>Returns the current battery status.</summary>
+    // Display battery status
     public string BatteryDisplay() =>
-        batteryPercentage > 0 ? $"Battery at {batteryPercentage}%" : "Battery empty";
+        _battery > 0
+            ? $"Battery at {_battery}%"
+            : "Battery empty";
 
-    /// <summary>Drives the car forward 20 meters and drains 1% battery if available.</summary>
+    // Attempt to drive 20 meters, draining 1% battery
     public void Drive()
     {
-        if (batteryPercentage <= 0) return;
-        distanceDriven += 20;
-        batteryPercentage = Math.Max(0, batteryPercentage - 1);
+        if (_battery <= 0)
+            return;
+
+        _distanceDriven += 20;
+        _battery -= 1;
     }
 }
