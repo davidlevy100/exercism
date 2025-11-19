@@ -1,27 +1,53 @@
 using System;
-using System.Linq;
 
 class BirdCount
 {
+    // Internal record of birds seen each day (one count per day)
     private int[] birdsPerDay;
 
-    public BirdCount(int[] birdsPerDay) => this.birdsPerDay = birdsPerDay;
+    // Store the week's data when creating an instance
+    public BirdCount(int[] birdsPerDay)
+    {
+        this.birdsPerDay = birdsPerDay;
+    }
 
-    /// <summary>Returns last week's sample data.</summary>
-    public static int[] LastWeek() => new[] { 0, 2, 5, 3, 7, 8, 4 };
+    // Return the fixed data set representing last week's counts
+    public static int[] LastWeek() =>
+        new[] { 0, 2, 5, 3, 7, 8, 4 };
 
-    /// <summary>Returns today's bird count.</summary>
-    public int Today() => birdsPerDay[birdsPerDay.Length - 1];
+    // Return today's count (last element in the array)
+    public int Today() =>
+        birdsPerDay[birdsPerDay.Length - 1];
 
-    /// <summary>Increments today's count by one.</summary>
-    public void IncrementTodaysCount() => birdsPerDay[birdsPerDay.Length - 1]++;
+    // Increase today's count by one
+    public void IncrementTodaysCount() =>
+        birdsPerDay[birdsPerDay.Length - 1]++;
 
-    /// <summary>Checks if any day had zero birds.</summary>
-    public bool HasDayWithoutBirds() => birdsPerDay.Any(c => c == 0);
+    // Check if any day had zero birds
+    public bool HasDayWithoutBirds() =>
+        Array.IndexOf(birdsPerDay, 0) != -1;
 
-    /// <summary>Returns total birds for the first N days.</summary>
-    public int CountForFirstDays(int numberOfDays) => birdsPerDay.Take(numberOfDays).Sum();
+    // Sum counts for the first N days
+    public int CountForFirstDays(int numberOfDays)
+    {
+        int sum = 0;
 
-    /// <summary>Counts the number of busy days (5+ birds).</summary>
-    public int BusyDays() => birdsPerDay.Count(c => c >= 5);
+        // Add the values for the requested number of days
+        for (int i = 0; i < numberOfDays; i++)
+            sum += birdsPerDay[i];
+
+        return sum;
+    }
+
+    // Count how many days had 5 or more birds
+    public int BusyDays()
+    {
+        int count = 0;
+
+        foreach (int c in birdsPerDay)
+            if (c >= 5)
+                count++;
+
+        return count;
+    }
 }
