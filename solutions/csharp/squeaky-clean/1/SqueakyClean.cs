@@ -1,56 +1,52 @@
+using System;
 using System.Text;
 
 public static class Identifier
 {
     public static string Clean(string identifier)
     {
-        if (identifier == null)
-            return null;
-
         var sb = new StringBuilder();
-        bool kebabFlag = false;
+        bool capitalizeNext = false;
 
         foreach (char c in identifier)
         {
-            // Convert spaces to underscores
+            // 1. Space → underscore
             if (c == ' ')
             {
                 sb.Append('_');
                 continue;
             }
 
-            // Replace control characters with literal "CTRL"
+            // 2. Control character → "CTRL"
             if (char.IsControl(c))
             {
                 sb.Append("CTRL");
                 continue;
             }
 
-            // A hyphen signals we should capitalize the next character
+            // 3. Kebab case: '-' triggers camelCase
             if (c == '-')
             {
-                kebabFlag = true;
+                capitalizeNext = true;
                 continue;
             }
 
-            // Uppercase the character following a hyphen
-            if (kebabFlag)
+            // 4. Omit non-letters
+            if (!char.IsLetter(c))
             {
-                sb.Append(char.ToUpperInvariant(c));
-                kebabFlag = false;
+                // underscore is only allowed if produced already from spaces
                 continue;
             }
 
-            // Skip Greek lowercase alpha through omega (per assignment spec)
+            // 5. Omit Greek lowercase letters (α to ω)
             if (c >= 'α' && c <= 'ω')
                 continue;
 
-            // Only letters are allowed past this point
-            if (!char.IsLetter(c))
-                continue;
+            // Apply camelCase capitalization
+            char final = capitalizeNext ? char.ToUpper(c) : c;
+            capitalizeNext = false;
 
-            // Append normal letter
-            sb.Append(c);
+            sb.Append(final);
         }
 
         return sb.ToString();
