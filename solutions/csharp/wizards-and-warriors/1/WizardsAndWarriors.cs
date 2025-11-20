@@ -1,40 +1,49 @@
-using System;
-
-/// <summary>Base character class defining shared behavior.</summary>
+// Base type for all characters.
+// Handles shared behavior like type name and vulnerability defaults.
 abstract class Character
 {
-    private readonly string characterType;
-    private bool isVulnerable = false;
+    private readonly string _type;
 
-    protected Character(string characterType) => this.characterType = characterType;
+    // Each character supplies its own type name.
+    protected Character(string characterType) =>
+        _type = characterType;
 
-    /// <summary>Calculates damage dealt to a target.</summary>
+    // Subclasses must define how much damage they do to a target.
     public abstract int DamagePoints(Character target);
 
-    /// <summary>Returns whether the character is currently vulnerable.</summary>
-    public virtual bool Vulnerable() => isVulnerable;
+    // Default behavior: characters are NOT vulnerable unless they say otherwise.
+    public virtual bool Vulnerable() => false;
 
-    public override string ToString() => $"Character is a {characterType}";
+    // Simple string representation.
+    public override string ToString() => $"Character is a {_type}";
 }
 
-/// <summary>A warrior with fixed damage values depending on target vulnerability.</summary>
+// Warrior: basic melee class with flat damage and no prep mechanics.
 class Warrior : Character
 {
     public Warrior() : base("Warrior") { }
 
-    public override int DamagePoints(Character target) => target.Vulnerable() ? 10 : 6;
+    // Warriors do more damage if the target happens to be vulnerable.
+    public override int DamagePoints(Character target) =>
+        target.Vulnerable() ? 10 : 6;
 }
 
-/// <summary>A wizard who can prepare a spell for stronger attacks and less vulnerability.</summary>
+// Wizard: can prepare a spell to become stronger and less vulnerable.
 class Wizard : Character
 {
-    private bool hasSpellPrepared = false;
+    private bool _spellPrepared;
 
     public Wizard() : base("Wizard") { }
 
-    public override int DamagePoints(Character target) => hasSpellPrepared ? 12 : 3;
+    // A wizard is only vulnerable when they haven't prepared a spell.
+    public override bool Vulnerable() =>
+        !_spellPrepared;
 
-    public void PrepareSpell() => hasSpellPrepared = true;
+    // Spell prepared = big damage, otherwise weak.
+    public override int DamagePoints(Character target) =>
+        _spellPrepared ? 12 : 3;
 
-    public override bool Vulnerable() => !hasSpellPrepared;
+    // Prepares the spell, changing both damage and vulnerability state.
+    public void PrepareSpell() =>
+        _spellPrepared = true;
 }
