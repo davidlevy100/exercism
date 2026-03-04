@@ -1,40 +1,38 @@
-// Package cards demonstrates basic slice operations with card values.
 package cards
 
-// FavoriteCards returns a fixed slice of favorite cards: 2, 6, and 9.
+// FavoriteCards returns a slice with the cards 2, 6 and 9 in that order.
 func FavoriteCards() []int {
 	return []int{2, 6, 9}
 }
 
-// GetItem returns the element at the given index.
-// If the index is out of range, it returns -1.
+// GetItem retrieves an item from a slice at given position.
+// If the index is out of range, we want it to return -1.
 func GetItem(slice []int, index int) int {
-	if index >= 0 && index < len(slice) {
-		return slice[index]
+	if index < 0 || index >= len(slice) {
+		return -1
 	}
-	return -1
+	return slice[index]
 }
 
-// SetItem updates the slice at the given index with value.
-// If the index is out of range, the value is appended instead.
+// SetItem writes an item to a slice at given position overwriting an existing value.
+// If the index is out of range the value needs to be appended.
 func SetItem(slice []int, index, value int) []int {
-	if index >= 0 && index < len(slice) {
-		slice[index] = value
-		return slice
+	if index < 0 || index >= len(slice) {
+		return append(slice, value)
 	}
-	return append(slice, value)
+	slice[index] = value
+	return slice
 }
 
-// PrependItems returns a new slice with the given values added in front.
+// PrependItems adds an arbitrary number of values at the front of a slice.
 func PrependItems(slice []int, values ...int) []int {
 	return append(values, slice...)
 }
 
-// RemoveItem returns a new slice with the item at the given index removed.
-// If the index is out of range, the original slice is returned unchanged.
+// RemoveItem removes an item from a slice by modifying the existing slice.
 func RemoveItem(slice []int, index int) []int {
-	if index >= 0 && index < len(slice) {
-		return append(slice[:index], slice[index+1:]...)
+	if index < 0 || index >= len(slice) {
+		return slice
 	}
-	return slice
+	return append(slice[:index], slice[index+1:]...)
 }
