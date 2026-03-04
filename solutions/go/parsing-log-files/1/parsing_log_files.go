@@ -24,7 +24,7 @@ func SplitLogLine(text string) []string {
 
 // CountQuotedPasswords counts lines with "password" (any case) inside quotes.
 func CountQuotedPasswords(lines []string) int {
-	count := 0
+	var count int
 	for _, line := range lines {
 		if passwordRe.MatchString(line) {
 			count++
