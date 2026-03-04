@@ -1,21 +1,19 @@
-// Package techpalace provides simple helpers for marketing messages.
 package techpalace
 
-import (
-	"strings"
-)
+import "strings"
 
-// WelcomeMessage returns a welcome message with the customer's name in uppercase.
+// WelcomeMessage returns a welcome message for the customer.
 func WelcomeMessage(customer string) string {
 	return "Welcome to the Tech Palace, " + strings.ToUpper(customer)
 }
 
-// AddBorder surrounds the message with lines of '*' of the given length.
-func AddBorder(msg string, numStars int) string {
-	return strings.Repeat("*", numStars) + "\n" + msg + "\n" + strings.Repeat("*", numStars)
+// AddBorder adds a border to a welcome message.
+func AddBorder(welcomeMsg string, numStarsPerLine int) string {
+	border := strings.Repeat("*", numStarsPerLine)
+	return strings.Join([]string{border, welcomeMsg, border}, "\n")
 }
 
-// CleanupMessage removes '*' and surrounding whitespace from a message.
+// CleanupMessage cleans up an old marketing message.
 func CleanupMessage(oldMsg string) string {
 	return strings.TrimSpace(strings.ReplaceAll(oldMsg, "*", ""))
 }
