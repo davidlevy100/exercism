@@ -61,7 +61,7 @@ func DescribeFancyNumberBox(fnb FancyNumberBox) string {
 
 // DescribeAnything returns a string describing the given value.
 // It handles ints, float64s, NumberBoxes, and FancyNumberBoxes.
-func DescribeAnything(i interface{}) string {
+func DescribeAnything(i any) string {
 	switch v := i.(type) {
 	case int:
 		return DescribeNumber(float64(v))
