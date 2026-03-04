@@ -28,7 +28,7 @@ func Filter(in []Record, predicate func(Record) bool) []Record {
 }
 
 // ByDaysPeriod returns a predicate that reports whether
-// a record’s day lies within the given period.
+// a record's day lies within the given period.
 func ByDaysPeriod(p DaysPeriod) func(Record) bool {
 	return func(r Record) bool {
 		return r.Day >= p.From && r.Day <= p.To
@@ -36,7 +36,7 @@ func ByDaysPeriod(p DaysPeriod) func(Record) bool {
 }
 
 // ByCategory returns a predicate that reports whether
-// a record’s category matches c.
+// a record's category matches c.
 func ByCategory(c string) func(Record) bool {
 	return func(r Record) bool {
 		return r.Category == c
@@ -45,12 +45,9 @@ func ByCategory(c string) func(Record) bool {
 
 // TotalByPeriod returns the sum of expenses within the given period.
 func TotalByPeriod(in []Record, p DaysPeriod) float64 {
-	sum := 0.0
-	pred := ByDaysPeriod(p) // build predicate once
-	for _, record := range in {
-		if pred(record) {
-			sum += record.Amount
-		}
+	var sum float64
+	for _, r := range Filter(in, ByDaysPeriod(p)) {
+		sum += r.Amount
 	}
 	return sum
 }
@@ -58,22 +55,13 @@ func TotalByPeriod(in []Record, p DaysPeriod) float64 {
 // CategoryExpenses returns the sum of expenses for category c
 // within the given period. If no records belong to c, an error is returned.
 func CategoryExpenses(in []Record, p DaysPeriod, c string) (float64, error) {
-	sum := 0.0
-	catPred := ByCategory(c)
-	dayPred := ByDaysPeriod(p)
-	catMatches := 0
-
-	for _, record := range in {
-		if catPred(record) {
-			catMatches++
-			if dayPred(record) {
-				sum += record.Amount
-			}
-		}
-	}
-
-	if catMatches == 0 {
+	catRecords := Filter(in, ByCategory(c))
+	if len(catRecords) == 0 {
 		return 0, errors.New("no category matches")
+	}
+	var sum float64
+	for _, r := range Filter(catRecords, ByDaysPeriod(p)) {
+		sum += r.Amount
 	}
 	return sum, nil
 }
