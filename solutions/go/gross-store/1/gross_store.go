@@ -35,12 +35,10 @@ func RemoveItem(bill, units map[string]int, item, unit string) bool {
 	if !ok {
 		return false
 	}
-
 	value, ok := units[unit]
 	if !ok {
 		return false
 	}
-
 	switch {
 	case amount < value:
 		return false
