@@ -27,7 +27,7 @@ func (r *Resident) Delete() {
 
 // Count returns the number of residents that have the required information.
 func Count(residents []*Resident) int {
-	count := 0
+	var count int
 	for _, r := range residents {
 		if r.HasRequiredInfo() {
 			count++
