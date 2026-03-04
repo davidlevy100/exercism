@@ -21,7 +21,6 @@ func DivideFood(fc FodderCalculator, cows int) (float64, error) {
 	if err := ValidateNumberOfCows(cows); err != nil {
 		return 0, err
 	}
-
 	fodder, err := fc.FodderAmount(cows)
 	if err != nil {
 		return 0, err
@@ -30,7 +29,6 @@ func DivideFood(fc FodderCalculator, cows int) (float64, error) {
 	if err != nil {
 		return 0, err
 	}
-
 	return fodder * factor / float64(cows), nil
 }
 
