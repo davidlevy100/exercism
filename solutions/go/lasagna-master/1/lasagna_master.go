@@ -1,6 +1,6 @@
-// Package lasagna provides functions for calculating preparation
+// Package lasagnamaster provides functions for calculating preparation
 // time, ingredient needs, and scaling lasagna recipes.
-package lasagna
+package lasagnamaster
 
 // PreparationTime returns the total prep time given layers and time per layer.
 // Defaults to 2 minutes if timePerLayer is 0.
@@ -16,7 +16,6 @@ func PreparationTime(layers []string, timePerLayer int) int {
 func Quantities(layers []string) (int, float64) {
 	var noodles int
 	var sauce float64
-
 	for _, layer := range layers {
 		switch layer {
 		case "noodles":
