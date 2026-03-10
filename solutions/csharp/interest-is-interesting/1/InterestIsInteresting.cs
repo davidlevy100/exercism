@@ -1,11 +1,13 @@
 static class SavingsAccount
 {
     // Determine interest rate based on balance tiers
-    public static float InterestRate(decimal balance) =>
-        balance < 0m    ? 3.213f :
-        balance < 1000m ? 0.5f   :
-        balance < 5000m ? 1.621f :
-                          2.475f;
+    public static float InterestRate(decimal balance) => balance switch
+    {
+        < 0m    => 3.213f,
+        < 1000m => 0.5f,
+        < 5000m => 1.621f,
+        _       => 2.475f
+    };
 
     // Yearly interest amount
     public static decimal Interest(decimal balance) =>
