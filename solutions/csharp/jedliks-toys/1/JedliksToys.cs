@@ -1,26 +1,18 @@
 class RemoteControlCar
 {
-    private int _distanceDriven = 0;   // meters driven
-    private int _battery = 100;        // percentage remaining
+    public int Battery { get; set; } = 100;
+    public int Distance { get; set; } = 0;
     
     public static RemoteControlCar Buy() => new RemoteControlCar();
 
-    // Display driven distance
-    public string DistanceDisplay() => $"Driven {_distanceDriven} meters";
+    public string DistanceDisplay() => $"Driven {Distance} meters";
 
-    // Display battery status
-    public string BatteryDisplay() =>
-        _battery > 0
-            ? $"Battery at {_battery}%"
-            : "Battery empty";
+    public string BatteryDisplay() => Battery == 0 ? "Battery empty" : $"Battery at {Battery}%";
 
-    // Attempt to drive 20 meters, draining 1% battery
     public void Drive()
     {
-        if (_battery <= 0)
-            return;
-
-        _distanceDriven += 20;
-        _battery -= 1;
+        if (Battery <= 0) return;
+        Battery -= 1;
+        Distance += 20;
     }
 }
