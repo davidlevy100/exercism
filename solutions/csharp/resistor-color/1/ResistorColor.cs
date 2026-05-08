@@ -1,25 +1,12 @@
 public static class ResistorColor
 {
-    private static readonly string[] ColorCodes =
-    {
-        "black", "brown", "red", "orange", "yellow",
-        "green", "blue", "violet", "grey", "white"
-    };
 
-    public static int ColorCode(string color)
-    {
-        // case-sensitive by spec, but we can normalize once
-        color = color.ToLowerInvariant();
+    private static readonly string[] _colors = 
+    ["black", "brown", "red", "orange", "yellow", "green", "blue", "violet", "grey", "white"];
+    
+    public static int ColorCode(string color) =>
+        Array.IndexOf(Colors(), color);
 
-        int index = Array.IndexOf(ColorCodes, color);
-        if (index < 0)
-            throw new ArgumentException("Invalid color", nameof(color));
-
-        return index;
-    }
-
-    public static string[] Colors()
-    {
-        return ColorCodes;
-    }
+    public static string[] Colors() => 
+        _colors;
 }
