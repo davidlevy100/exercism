@@ -1,48 +1,26 @@
 public static class PlayAnalyzer
 {
-    public static string AnalyzeOnField(int shirtNum)
+    public static string AnalyzeOnField(int shirtNum) => shirtNum switch
     {
-        switch (shirtNum)
-        {
-            case 1: return "goalie";
-            case 2: return "left back";
-            case 3:
-            case 4: return "center back";
-            case 5: return "right back";
-            case 6:
-            case 7:
-            case 8: return "midfielder";
-            case 9: return "left wing";
-            case 10: return "striker";
-            case 11: return "right wing";
-            default: return "UNKNOWN";
-        }
-    }
+        1           => "goalie",
+        2           => "left back",
+        3 or 4      => "center back",
+        5           => "right back",
+        6 or 7 or 8 => "midfielder",
+        9           => "left wing",
+        10          => "striker",
+        11          => "right wing",
+        _           => "UNKNOWN"
+    };
 
-    public static string AnalyzeOffField(object report)
+    public static string AnalyzeOffField(object report) => report switch
     {
-        switch (report)
-        {
-            case int supporters:
-                return $"There are {supporters} supporters at the match.";
-
-            case string announcement:
-                return announcement;
-
-            case Injury injury:
-                return $"Oh no! {injury.GetDescription()} Medics are on the field.";
-
-            case Incident incident:
-                return incident.GetDescription();
-
-            case Manager m when m.Club == null:
-                return m.Name;
-
-            case Manager m:
-                return $"{m.Name} ({m.Club})";
-
-            default:
-                return "";
-        }
-    }
+        int supporters                     => $"There are {supporters} supporters at the match.",
+        string announcement                => announcement,
+        Injury injury                      => $"Oh no! {injury.GetDescription()} Medics are on the field.",
+        Incident incident                  => incident.GetDescription(),
+        Manager { Club: not null } manager => $"{manager.Name} ({manager.Club})",
+        Manager manager                    => manager.Name,
+        _                                  => ""
+    };
 }
